@@ -8,3 +8,16 @@
     text-align: left;
 }
 
+#center-buttons{
+    text-align: center;
+    width: 100%;
+}
+
+#center-buttons button {
+    margin: 20px;
+    cursor: pointer;
+}
+
+.charity-row{
+    cursor: pointer;
+}

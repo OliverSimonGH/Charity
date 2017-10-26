@@ -2,12 +2,11 @@ package com.oliver.repositories;
 
 import com.oliver.entities.Charity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by c1633899 on 20/10/2017.
- */
+@Repository
 public interface CharityRepository extends JpaRepository<Charity, Long>{
 
     List<Charity> findAll();

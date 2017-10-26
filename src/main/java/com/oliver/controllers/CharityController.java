@@ -4,16 +4,12 @@ import com.oliver.entities.Charity;
 import com.oliver.repositories.CharityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by c1633899 on 14/10/2017.
- */
-@RestController
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Controller
+@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CharityController {
 
     private CharityRepository charityRepository;
@@ -23,27 +19,19 @@ public class CharityController {
         this.charityRepository = charityRepository;
     }
 
-    @RequestMapping(value = "/charities", method = RequestMethod.GET)
-    public List<Charity> requestCharities(){
-        return charityRepository.findAll();
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String requestCharities(Model model){
+        model.addAttribute("title", "Charities");
+        model.addAttribute("charities", charityRepository.findAll());
+        return "charity/charities";
     }
 
     @RequestMapping(value = "/charity/{id}", method = RequestMethod.GET)
-    public Charity requestCharityById(@PathVariable(value = "id") int id){
-        return charityRepository.findCharityByCharityID(id);
+    public String requestCharityById(@PathVariable(value = "id") int id, Model model){
+        Charity charity = charityRepository.findCharityByCharityID(id);
+        model.addAttribute("title", charity.getCharityName() + "Charity");
+        model.addAttribute("charity", charity);
+        return "charity/charity";
     }
-
-    @RequestMapping(value = "/charity", method = RequestMethod.GET)
-    public ArrayList<Charity> requestCharitiesByName(@RequestParam(value = "name") ArrayList<String> name) {
-        ArrayList<Charity> charity1 = new ArrayList<>();
-
-        if (name.size() != 0) {
-            name.forEach(s -> charity1.add(charityRepository.findCharityByCharityName(s)));
-            return charity1;
-        }
-
-        return null;
-    }
-
 
 }

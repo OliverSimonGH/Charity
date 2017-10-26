@@ -28,7 +28,5 @@ public class Charity {
     @Column(name = "registration_id")
     private String charityNumber;
 
-
-
 }
 
