@@ -15,7 +15,7 @@
         </thead>
 
         <tbody>
-            <tr th:each="charity : ${charities}" class="charity-row" th:href="@{|/charity/${charity.charityID}|}">
+            <tr th:each="charity : ${charities}" class="charity-row" th:href="@{'/charity/' + ${charity.charityID}}">
                 <td th:text="${charity.charityID}"></td>
                 <td th:text="${charity.charityName}"></td>
                 <td th:text="${charity.charityNumber}"></td>
