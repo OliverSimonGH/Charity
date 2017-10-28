@@ -1,5 +1,6 @@
 package com.oliver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -57,19 +58,21 @@ public class Sponsor {
     @Column(name = "furl")
     private String furl;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "charity_id")
     private Charity charity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sponsor_form", cascade = CascadeType.ALL)
     private List<Donation> donations;
 
-    @PrePersist
-    private void generateDates() {
-        Calendar date = Calendar.getInstance();
-        dateCreated = firstValidDay = new java.sql.Date(date.getTime().getTime());
-        date.add(Calendar.MONTH, 1);
-        lastValidDay = new java.sql.Date(date.getTime().getTime());
-    }
+//    @PrePersist
+//    private void generateDates() {
+//        Calendar date = Calendar.getInstance();
+//        dateCreated = firstValidDay = new java.sql.Date(date.getTime().getTime());
+//        date.add(Calendar.MONTH, 1);
+//        lastValidDay = new java.sql.Date(date.getTime().getTime());
+//    }
 }
 

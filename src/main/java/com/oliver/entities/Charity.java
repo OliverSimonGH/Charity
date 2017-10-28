@@ -1,5 +1,9 @@
 package com.oliver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.org.apache.xerces.internal.xs.ShortList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,9 +44,11 @@ public class Charity {
     @Column(name = "purpose")
     private String purpose;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "charity", cascade = CascadeType.ALL)
     private List<Donation> donations;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "charity", cascade = CascadeType.ALL)
     private List<Sponsor> sponsors;
 

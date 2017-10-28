@@ -2,6 +2,7 @@ package com.oliver.services;
 
 import com.oliver.entities.Charity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,4 +12,5 @@ public interface CharityServiceInterface {
 
     List<Charity> findAll();
     Charity findCharityByCharityID(int id);
+    List<Charity> findCharitiesByName(ArrayList<String> charity);
 }

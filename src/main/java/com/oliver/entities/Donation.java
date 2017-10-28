@@ -1,6 +1,7 @@
 package com.oliver.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,9 @@ import java.util.Date;
 @Table(name = "donation")
 public class Donation {
 
-    public Donation(int amountInPence, boolean isOwnMoney, boolean hasNoBenefitToDonor, boolean wishesToGiftAid, Donor donor, Charity charity, Sponsor sponsor) {
+    public Donation(int amountInPence, boolean ownMoney, boolean hasNoBenefitToDonor, boolean wishesToGiftAid, Donor donor, Charity charity, Sponsor sponsor) {
         this.amountInPence = amountInPence;
-        this.isOwnMoney = isOwnMoney;
+        this.ownMoney = ownMoney;
         this.hasNoBenefitToDonor = hasNoBenefitToDonor;
         this.wishesToGiftAid = wishesToGiftAid;
         this.donor = donor;
@@ -26,9 +27,9 @@ public class Donation {
         this.sponsor_form = sponsor;
     }
 
-    public Donation(int amountInPence, Boolean isOwnMoney, boolean hasNoBenefitToDonor, Boolean wishesToGiftAid, Donor donor, Charity charity) {
+    public Donation(int amountInPence, Boolean ownMoney, boolean hasNoBenefitToDonor, Boolean wishesToGiftAid, Donor donor, Charity charity) {
         this.amountInPence = amountInPence;
-        this.isOwnMoney = isOwnMoney;
+        this.ownMoney = ownMoney;
         this.hasNoBenefitToDonor = hasNoBenefitToDonor;
         this.wishesToGiftAid = wishesToGiftAid;
         this.donor = donor;
@@ -38,7 +39,7 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int Id;
+    private int id;
 
     @Column(name = "amount_in_pence")
     private int amountInPence;
@@ -48,7 +49,7 @@ public class Donation {
     private Date donationDate;
 
     @Column(name = "is_own_money")
-    private boolean isOwnMoney;
+    private boolean ownMoney;
 
     @Column(name = "has_no_benefit_to_donor")
     private boolean hasNoBenefitToDonor;
@@ -56,22 +57,25 @@ public class Donation {
     @Column(name = "wishes_to_gift_aid")
     private boolean wishesToGiftAid;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "donor_id")
     private Donor donor;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "charity_id")
     private Charity charity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sponsor_form_id")
     private Sponsor sponsor_form;
 
-    @PrePersist
-    private void generateDates() {
-        Calendar date = Calendar.getInstance();
-        donationDate = new java.sql.Date(date.getTime().getTime());
-    }
+//    @PrePersist
+//    private void generateDates() {
+//        Calendar date = Calendar.getInstance();
+//        donationDate = new java.sql.Date(date.getTime().getTime());
+//    }
 
 }

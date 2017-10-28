@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "address")
 public class Address {
 
-    public Address(String buildingName, int buildingNumber, String street, String district, String city, String postcode, String countryISOCode) {
+    public Address(String buildingName, Integer buildingNumber, String street, String district, String city, String postcode, String countryISOCode) {
         this.buildingName = buildingName;
         this.buildingNumber = buildingNumber;
         this.street = street;
@@ -29,13 +29,13 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int Id;
+    private int id;
 
     @Column(name = "building_name")
     private String buildingName;
 
     @Column(name = "building_number")
-    private int buildingNumber;
+    private Integer buildingNumber;
 
     @Column(name = "street")
     private String street;
