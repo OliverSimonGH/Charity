@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "sponsor_form")
-public class Sponsor {
+public class Sponsor implements ActivityInterface{
 
     public Sponsor(String fundraiserName, String fundraisingAction, String furl) {
         this.fundraiserName = fundraiserName;
@@ -66,6 +65,12 @@ public class Sponsor {
     @JsonIgnore
     @OneToMany(mappedBy = "sponsor_form", cascade = CascadeType.ALL)
     private List<Donation> donations;
+
+    @JsonIgnore
+    @Override
+    public Date getDate() {
+        return dateCreated;
+    }
 
 //    @PrePersist
 //    private void generateDates() {

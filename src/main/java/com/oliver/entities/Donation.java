@@ -2,12 +2,9 @@ package com.oliver.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -15,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "donation")
-public class Donation {
+public class Donation implements ActivityInterface{
 
     public Donation(int amountInPence, boolean ownMoney, boolean hasNoBenefitToDonor, boolean wishesToGiftAid, Donor donor, Charity charity, Sponsor sponsor) {
         this.amountInPence = amountInPence;
@@ -72,10 +69,16 @@ public class Donation {
     @JoinColumn(name = "sponsor_form_id")
     private Sponsor sponsor_form;
 
-//    @PrePersist
-//    private void generateDates() {
-//        Calendar date = Calendar.getInstance();
-//        donationDate = new java.sql.Date(date.getTime().getTime());
-//    }
+    public boolean isEligibleGiftAid() {
+        if (this.ownMoney && this.hasNoBenefitToDonor && this.wishesToGiftAid ){
+            return true;
+        }
+        return false;
+    }
 
+    @JsonIgnore
+    @Override
+    public Date getDate() {
+        return donationDate;
+    }
 }
