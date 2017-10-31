@@ -1,5 +1,6 @@
 package com.oliver.services;
 
+import com.oliver.data.ActivityReport;
 import com.oliver.entities.ActivityInterface;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface ActivityService {
 
-    List<ActivityInterface> getAllActivities(int id);
+    List<ActivityReport> getAllActivities(int id);
 }

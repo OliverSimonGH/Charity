@@ -1,5 +1,6 @@
 package com.oliver.services;
 
+import com.oliver.data.ActivityReport;
 import com.oliver.entities.ActivityInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,13 +27,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityInterface> getAllActivities(int id) {
+    public List<ActivityReport> getAllActivities(int id) {
         ArrayList<ActivityInterface> result = new ArrayList<>();
-        result.addAll(donationServiceImpl.findAllByCharityID(id));
+        result.addAll(donationServiceImpl.findAllByCharityId(id));
         result.addAll(sponsorServiceImpl.findAllByCharityId(id));
 
         return result.stream()
-                .sorted(Comparator.comparing(ActivityInterface::getDate, Comparator.reverseOrder()))
+                .map(activityInterface -> new ActivityReport(activityInterface.getPerson(), activityInterface.getEvent(), activityInterface.getDate()))
+                .sorted(Comparator.comparing(ActivityReport::getDate, Comparator.reverseOrder()))
                 .limit(10)
                 .collect(Collectors.toList());
     }

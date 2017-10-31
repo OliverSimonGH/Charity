@@ -18,9 +18,9 @@ import java.util.List;
  */
 public interface DonationRepository extends JpaRepository<Donation, Long> {
 
-    List<Donation> findAllByCharity(Charity charity, Pageable pageable);
-    List<Donation> findAllByCharity(Charity charity);
+    @Query(value = "SELECT * FROM donation WHERE charity_id = :charity_id ORDER BY amount_in_pence DESC", nativeQuery = true )
+    List<Donation> findAllByCharityId(@Param("charity_id") int charity_id);
 
-    @Query(value = "SELECT SUM(amount_in_pence) FROM donation WHERE charity_id = :charity_id", nativeQuery = true)
-    int findAllByCharity(@Param("charity_id") int charity_id);
+    @Query(value = "SELECT SUM(amount_in_pence) / 100 FROM donation WHERE charity_id = :charity_id", nativeQuery = true)
+    int findAllByCharitySum(@Param("charity_id") int charity_id);
 }

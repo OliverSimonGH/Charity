@@ -21,18 +21,13 @@ public class SponsorServiceImpl implements SponsorService {
     @Qualifier("JPA")
     private SponsorRepository sponsorRepository;
 
-    @Qualifier("JPA")
-    private CharityRepository charityRepository;
-
     @Autowired
-    public SponsorServiceImpl(SponsorRepository sponsorRepository, CharityRepository charityRepository) {
+    public SponsorServiceImpl(SponsorRepository sponsorRepository) {
         this.sponsorRepository = sponsorRepository;
-        this.charityRepository = charityRepository;
     }
 
     @Override
     public List<Sponsor> findAllByCharityId(int num) {
-        Charity charity = charityRepository.findCharityByCharityID(num);
-        return sponsorRepository.findAllByCharity(charity);
+        return sponsorRepository.findAllByCharity(num);
     }
 }

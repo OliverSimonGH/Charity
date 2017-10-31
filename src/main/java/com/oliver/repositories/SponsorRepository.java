@@ -3,6 +3,8 @@ package com.oliver.repositories;
 import com.oliver.entities.Charity;
 import com.oliver.entities.Sponsor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -11,5 +13,6 @@ import java.util.List;
  */
 public interface SponsorRepository extends JpaRepository<Sponsor, Long> {
 
-    List<Sponsor> findAllByCharity(Charity charity);
+    @Query(value = "SELECT * FROM sponsor_form WHERE charity_id = :charity_id", nativeQuery = true)
+    List<Sponsor> findAllByCharity(@Param("charity_id") int charity_id);
 }

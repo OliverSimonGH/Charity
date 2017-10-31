@@ -1,6 +1,6 @@
 package com.oliver.services;
 
-import com.oliver.entities.Charity;
+import com.oliver.data.DonationReport;
 import com.oliver.entities.Donation;
 
 import java.util.List;
@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface DonationService {
 
-    List<Donation> findAllByCharityID(int num);
-    List<Donation> findAllDonationsByCharityId(int num, Integer page, Integer size, String sort, String sortBy);
-    int findAllDonationsTotalByCharityId(int num, String type);
+    List<Donation> findAllByCharityId(int num);
+    DonationReport findAllDonationsTotalByCharityId(int num);
 }

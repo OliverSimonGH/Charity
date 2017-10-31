@@ -68,6 +68,18 @@ public class Sponsor implements ActivityInterface{
 
     @JsonIgnore
     @Override
+    public String getPerson() {
+        return this.fundraiserName;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getEvent() {
+        return "Created Sponsor Form";
+    }
+
+    @JsonIgnore
+    @Override
     public Date getDate() {
         return dateCreated;
     }

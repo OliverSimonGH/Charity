@@ -78,6 +78,18 @@ public class Donation implements ActivityInterface{
 
     @JsonIgnore
     @Override
+    public String getPerson() {
+        return this.donor.getFirstName() + " " + this.donor.getLastName();
+    }
+
+    @JsonIgnore
+    @Override
+    public String getEvent() {
+        return "Donated: £" + getAmountInPence() / 100;
+    }
+
+    @JsonIgnore
+    @Override
     public Date getDate() {
         return donationDate;
     }

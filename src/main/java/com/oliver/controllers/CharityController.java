@@ -1,5 +1,7 @@
 package com.oliver.controllers;
 
+import com.oliver.data.ActivityReport;
+import com.oliver.data.DonationReport;
 import com.oliver.entities.ActivityInterface;
 import com.oliver.entities.Charity;
 import com.oliver.entities.Donation;
@@ -32,9 +34,6 @@ public class CharityController {
         this.activityServiceImpl = activityServiceImpl;
     }
 
-    @Autowired
-
-
     @RequestMapping(value = "/charities", method = RequestMethod.GET)
     public List<Charity> requestCharities(){
         return charityServiceImpl.findAll();
@@ -51,13 +50,13 @@ public class CharityController {
     }
 
     @RequestMapping(value = "/charity/{id}/donations", method = RequestMethod.GET)
-    public List<Donation> requestCharityDonationsById(@PathVariable(value = "id") int id, @RequestParam(value = "page", required = false) final Integer page, @RequestParam(value = "limit", required = false) final Integer limit, @RequestParam(value = "sort", required = false) String sort, @RequestParam(value = "sortBy", required = false) String sortBy){
-            return donationServiceImpl.findAllDonationsByCharityId(id, page, limit, sort, sortBy);
+    public List<Donation> requestCharityDonationsById(@PathVariable(value = "id") int id){
+            return donationServiceImpl.findAllByCharityId(id);
     }
 
     @RequestMapping(value = "/charity/{id}/donations/total", method = RequestMethod.GET)
-    public double requestCharityDonationsTotalById(@PathVariable(value = "id") int id, @RequestParam(value = "type", required = false) String type) {
-        return donationServiceImpl.findAllDonationsTotalByCharityId(id, type);
+    public DonationReport requestCharityDonationsTotalById(@PathVariable(value = "id") int id) {
+        return donationServiceImpl.findAllDonationsTotalByCharityId(id);
     }
 
     @RequestMapping(value = "/charity/{id}/sponsors", method = RequestMethod.GET)
@@ -66,7 +65,7 @@ public class CharityController {
     }
 
     @RequestMapping(value = "/charity/{id}/events", method = RequestMethod.GET)
-    public List<ActivityInterface> requestCharityEventsById(@PathVariable(value = "id") int id){
+    public List<ActivityReport> requestCharityEventsById(@PathVariable(value = "id") int id){
         return activityServiceImpl.getAllActivities(id);
     }
 
