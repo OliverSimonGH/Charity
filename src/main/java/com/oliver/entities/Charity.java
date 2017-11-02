@@ -24,12 +24,6 @@ import java.util.List;
 @Table(name = "charity")
 public class Charity {
 
-    public Charity(String charityName, String charityNumber, String purpose) {
-        this.charityName = charityName;
-        this.charityNumber = charityNumber;
-        this.purpose = purpose;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

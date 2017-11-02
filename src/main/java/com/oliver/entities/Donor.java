@@ -38,5 +38,4 @@ public class Donor {
 
     @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL)
     private List<Donation> donations;
-
 }

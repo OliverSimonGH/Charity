@@ -14,25 +14,6 @@ import java.util.Date;
 @Table(name = "donation")
 public class Donation implements ActivityInterface{
 
-    public Donation(int amountInPence, boolean ownMoney, boolean hasNoBenefitToDonor, boolean wishesToGiftAid, Donor donor, Charity charity, Sponsor sponsor) {
-        this.amountInPence = amountInPence;
-        this.ownMoney = ownMoney;
-        this.hasNoBenefitToDonor = hasNoBenefitToDonor;
-        this.wishesToGiftAid = wishesToGiftAid;
-        this.donor = donor;
-        this.charity = charity;
-        this.sponsor_form = sponsor;
-    }
-
-    public Donation(int amountInPence, Boolean ownMoney, boolean hasNoBenefitToDonor, Boolean wishesToGiftAid, Donor donor, Charity charity) {
-        this.amountInPence = amountInPence;
-        this.ownMoney = ownMoney;
-        this.hasNoBenefitToDonor = hasNoBenefitToDonor;
-        this.wishesToGiftAid = wishesToGiftAid;
-        this.donor = donor;
-        this.charity = charity;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -70,10 +51,31 @@ public class Donation implements ActivityInterface{
     private Sponsor sponsor_form;
 
     public boolean isEligibleGiftAid() {
-        if (this.ownMoney && this.hasNoBenefitToDonor && this.wishesToGiftAid ){
+        if (this.ownMoney && this.hasNoBenefitToDonor && this.wishesToGiftAid && isGBResident() && checkPostcode()){
             return true;
         }
         return false;
+    }
+
+    public boolean isGBResident(){
+        if (this.donor.getAddress().getCountryISOCode().equalsIgnoreCase("gb")) return true;
+        return false;
+    }
+
+    public boolean checkPostcode(){
+        int charCount = 0;
+        for (Character c : this.donor.getAddress().getPostcode().toCharArray()) {
+            charCount++;
+        }
+
+        if (charCount >= 4 && charCount <= 10) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getPounds(){
+        return this.amountInPence / 100;
     }
 
     @JsonIgnore
@@ -85,7 +87,7 @@ public class Donation implements ActivityInterface{
     @JsonIgnore
     @Override
     public String getEvent() {
-        return "Donated: £" + getAmountInPence() / 100;
+        return "Donated: £" + getPounds();
     }
 
     @JsonIgnore

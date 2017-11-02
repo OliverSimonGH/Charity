@@ -36,18 +36,6 @@ public class DonationServiceImpl implements DonationService {
 
     @Override
     public DonationReport findAllDonationsTotalByCharityId(int num) {
-        int donationReport = donationRepository.findAllByCharitySum(num);
-        return new DonationReport(donationReport + (int)(donationReport * 0.2), donationReport, (int)(donationReport * 0.2));
+        return new DonationReport(donationRepository.findAllByCharityId(num));
     }
-
-    private Sort.Direction getSort(String val){
-        if (val.equalsIgnoreCase("asc")){
-            return Sort.Direction.ASC;
-        } else  if (val.equalsIgnoreCase("desc")){
-            return Sort.Direction.DESC;
-        } else {
-            return Sort.Direction.DESC;
-        }
-    }
-
 }
