@@ -1,5 +1,6 @@
 package com.oliver.controllers;
 
+import com.oliver.data.ActivityReport;
 import com.oliver.data.DonationReport;
 import com.oliver.entities.*;
 import com.oliver.services.ActivityService;
@@ -15,9 +16,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.sql.*;
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.given;
@@ -56,6 +59,8 @@ public class CharityControllerTest {
 
     private List<Sponsor> sponsors;
 
+    private List<ActivityReport> activityReports;
+
     @Before
     public void setup(){
 //        https://stackoverflow.com/questions/9112770/how-to-convert-calendar-to-java-sql-date-in-java
@@ -80,6 +85,11 @@ public class CharityControllerTest {
         charities = new ArrayList<>(Arrays.asList(
                 new Charity(1L, "NSPCC", null, null, donations, null),
                 new Charity(2L, "OXFAM", null, null, donations, null)
+        ));
+
+        activityReports = new ArrayList<>(Arrays.asList(
+                new ActivityReport("Bob", "Created Sponsor Form", firstDate),
+                new ActivityReport("Elen", "Donated £20", secondDate)
         ));
     }
 
@@ -110,17 +120,14 @@ public class CharityControllerTest {
     @Test
     public void expectToSeeASingleCharityDonationsMade() throws Exception{
         when(donationService.findAllByCharityId(1L)).thenReturn(donations);
-
         this.mvc.perform(get("/api/charity/1/donations"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("[{\"id\":1,\"amountInPence\":10000,\"donationDate\":\"2017-11-08\",\"ownMoney\":false,\"hasNoBenefitToDonor\":false,\"wishesToGiftAid\":false,\"eligibleGiftAid\":false,\"gbresident\":true,\"pounds\":100},{\"id\":2,\"amountInPence\":20000,\"donationDate\":\"2017-02-08\",\"ownMoney\":true,\"hasNoBenefitToDonor\":true,\"wishesToGiftAid\":true,\"eligibleGiftAid\":true,\"gbresident\":true,\"pounds\":200}]")));
-
     }
 
     @Test
     public void expectToSeeASingleCharitySponsorsCreated() throws Exception{
         when(sponsorService.findAllByCharityId(1L)).thenReturn(sponsors);
-
         this.mvc.perform(get("/api/charity/1/sponsors"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("[{\"fundraiserName\":\"Thomas Hanks\",\"fundraisingAction\":null,\"dateCreated\":\"2017-02-08\",\"firstValidDay\":null,\"lastValidDay\":null,\"furl\":null,\"id\":1},{\"fundraiserName\":\"Sinclair\",\"fundraisingAction\":null,\"dateCreated\":\"2017-11-08\",\"firstValidDay\":null,\"lastValidDay\":null,\"furl\":null,\"id\":1}]")));
@@ -134,5 +141,13 @@ public class CharityControllerTest {
         this.mvc.perform(get("/api/charity/1/donations/total"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("{\"total\":340,\"amount\":300,\"giftaid\":40}")));
+    }
+
+    @Test
+    public void expectToSee10RecentActivitiesOfASpecificCharity() throws Exception {
+        when(activityService.getAllActivities(1L)).thenReturn(activityReports);
+        this.mvc.perform(get("/api/charity/1/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("[{\"person\":\"Bob\",\"event\":\"Created Sponsor Form\",\"date\":\"2017-11-08\"},{\"person\":\"Elen\",\"event\":\"Donated £20\",\"date\":\"2017-02-08\"}]")));
     }
 }
