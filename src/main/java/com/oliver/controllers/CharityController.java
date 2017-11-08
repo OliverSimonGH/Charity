@@ -2,14 +2,11 @@ package com.oliver.controllers;
 
 import com.oliver.data.ActivityReport;
 import com.oliver.data.DonationReport;
-import com.oliver.entities.ActivityInterface;
 import com.oliver.entities.Charity;
 import com.oliver.entities.Donation;
 import com.oliver.entities.Sponsor;
-import com.oliver.services.ActivityServiceImpl;
-import com.oliver.services.CharityServiceImpl;
-import com.oliver.services.DonationServiceImpl;
-import com.oliver.services.SponsorServiceImpl;
+import com.oliver.config.NoSuchResourceException;
+import com.oliver.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,52 +18,54 @@ import java.util.List;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CharityController {
 
-    private CharityServiceImpl charityServiceImpl;
-    private DonationServiceImpl donationServiceImpl;
-    private SponsorServiceImpl sponsorServiceImpl;
-    private ActivityServiceImpl activityServiceImpl;
+    private CharityService charityService;
+    private DonationService donationService;
+    private SponsorService sponsorService;
+    private ActivityService activityService;
 
     @Autowired
-    public CharityController(CharityServiceImpl charityServiceImpl, DonationServiceImpl donationServiceImpl, SponsorServiceImpl sponsorServiceImpl, ActivityServiceImpl activityServiceImpl) {
-        this.charityServiceImpl = charityServiceImpl;
-        this.donationServiceImpl = donationServiceImpl;
-        this.sponsorServiceImpl = sponsorServiceImpl;
-        this.activityServiceImpl = activityServiceImpl;
+    public CharityController(CharityService charityService, DonationService donationService, SponsorService sponsorService, ActivityService activityService) {
+        this.charityService = charityService;
+        this.donationService = donationService;
+        this.sponsorService = sponsorService;
+        this.activityService = activityService;
     }
 
     @RequestMapping(value = "/charities", method = RequestMethod.GET)
     public List<Charity> requestCharities(){
-        return charityServiceImpl.findAll();
+        return charityService.findAll();
     }
 
     @RequestMapping(value = "/charity/{id}", method = RequestMethod.GET)
-    public Charity requestCharityById(@PathVariable(value = "id") int id){
-        return charityServiceImpl.findCharityByCharityID(id);
+    public Charity requestCharityById(@PathVariable(value = "id") Long id) throws NoSuchResourceException{
+        Charity charity = charityService.findCharityByCharityID(id);
+        if (charity != null) return charity;
+        else throw new NoSuchResourceException();
     }
 
     @RequestMapping(value = "/charity", method = RequestMethod.GET)
     public List<Charity> requestCharitiesByName(@RequestParam(value = "name") ArrayList<String> name){
-        return charityServiceImpl.findCharitiesByName(name);
+        return charityService.findCharitiesByName(name);
     }
 
     @RequestMapping(value = "/charity/{id}/donations", method = RequestMethod.GET)
-    public List<Donation> requestCharityDonationsById(@PathVariable(value = "id") int id){
-            return donationServiceImpl.findAllByCharityId(id);
+    public List<Donation> requestCharityDonationsById(@PathVariable(value = "id") Long id){
+            return donationService.findAllByCharityId(id);
     }
 
     @RequestMapping(value = "/charity/{id}/donations/total", method = RequestMethod.GET)
-    public DonationReport requestCharityDonationsTotalById(@PathVariable(value = "id") int id) {
-        return donationServiceImpl.findAllDonationsTotalByCharityId(id);
+    public DonationReport requestCharityDonationsTotalById(@PathVariable(value = "id") Long id) {
+        return donationService.findAllDonationsTotalByCharityId(id);
     }
 
     @RequestMapping(value = "/charity/{id}/sponsors", method = RequestMethod.GET)
-    public List<Sponsor> requestCharitySponsorsById(@PathVariable(value = "id") int id){
-        return sponsorServiceImpl.findAllByCharityId(id);
+    public List<Sponsor> requestCharitySponsorsById(@PathVariable(value = "id") Long id){
+        return sponsorService.findAllByCharityId(id);
     }
 
     @RequestMapping(value = "/charity/{id}/events", method = RequestMethod.GET)
-    public List<ActivityReport> requestCharityEventsById(@PathVariable(value = "id") int id){
-        return activityServiceImpl.getAllActivities(id);
+    public List<ActivityReport> requestCharityEventsById(@PathVariable(value = "id") Long id){
+         return activityService.getAllActivities(id);
     }
 
 }

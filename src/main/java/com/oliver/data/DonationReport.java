@@ -13,7 +13,6 @@ import java.util.List;
  * Created by c1633899 on 31/10/2017.
  */
 @Data
-@NoArgsConstructor
 public class DonationReport {
 
     private int total;
@@ -39,16 +38,15 @@ public class DonationReport {
 
     private void calculateAmount(){
         amount = donations.stream()
-                .mapToInt(Donation::getPounds)
-                .sum();
-
+                .mapToInt(Donation::getAmountInPence)
+                .sum() / 100;
     }
 
     private void calculateGiftAid(){
-        giftaid = donations.stream()
+        giftaid = (int) donations.stream()
                 .filter(Donation::isEligibleGiftAid)
-                .mapToInt(Donation::getPounds)
-                .sum();
+                .mapToDouble(donation -> donation.getAmountInPence() * 0.2)
+                .sum() / 100;
     }
 
     private void calculateTotal(){

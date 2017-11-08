@@ -13,6 +13,5 @@ import java.util.List;
  */
 public interface SponsorRepository extends JpaRepository<Sponsor, Long> {
 
-    @Query(value = "SELECT * FROM sponsor_form WHERE charity_id = :charity_id", nativeQuery = true)
-    List<Sponsor> findAllByCharity(@Param("charity_id") int charity_id);
+    List<Sponsor> findAllByCharity(Charity charity);
 }

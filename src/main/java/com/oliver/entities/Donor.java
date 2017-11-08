@@ -24,7 +24,7 @@ public class Donor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -36,6 +36,6 @@ public class Donor {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "donor")
     private List<Donation> donations;
 }

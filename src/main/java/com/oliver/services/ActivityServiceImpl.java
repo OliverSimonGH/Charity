@@ -15,22 +15,22 @@ import java.util.stream.Collectors;
 public class ActivityServiceImpl implements ActivityService {
 
     @Qualifier("JPA")
-    private DonationServiceImpl donationServiceImpl;
+    private DonationService donationService;
 
     @Qualifier("JPA")
-    private SponsorServiceImpl sponsorServiceImpl;
+    private SponsorService sponsorService;
 
     @Autowired
-    public ActivityServiceImpl(DonationServiceImpl donationServiceImpl, SponsorServiceImpl sponsorServiceImpl) {
-        this.donationServiceImpl = donationServiceImpl;
-        this.sponsorServiceImpl = sponsorServiceImpl;
+    public ActivityServiceImpl(DonationService donationService, SponsorService sponsorService) {
+        this.donationService = donationService;
+        this.sponsorService = sponsorService;
     }
 
     @Override
-    public List<ActivityReport> getAllActivities(int id) {
+    public List<ActivityReport> getAllActivities(Long id) {
         ArrayList<ActivityInterface> result = new ArrayList<>();
-        result.addAll(donationServiceImpl.findAllByCharityId(id));
-        result.addAll(sponsorServiceImpl.findAllByCharityId(id));
+        result.addAll(donationService.findAllByCharityId(id));
+        result.addAll(sponsorService.findAllByCharityId(id));
 
         return result.stream()
                 .map(activityInterface -> new ActivityReport(activityInterface.getPerson(), activityInterface.getEvent(), activityInterface.getDate()))

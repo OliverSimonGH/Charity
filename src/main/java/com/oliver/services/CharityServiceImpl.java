@@ -1,6 +1,5 @@
 package com.oliver.services;
 
-import com.oliver.entities.ActivityInterface;
 import com.oliver.entities.Charity;
 import com.oliver.repositories.CharityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +31,15 @@ public class CharityServiceImpl implements CharityService {
     }
 
     @Override
-    public Charity findCharityByCharityID(int id) {
+    public Charity findCharityByCharityID(Long id){
         return charityRepository.findCharityByCharityID(id);
     }
 
     @Override
     public List<Charity> findCharitiesByName(ArrayList<String> charity){
-        List<Charity> result = charity.stream()
+        return charity.stream()
                 .map(s -> charityRepository.findCharityByCharityName(s))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-        if (result.size() != 0) return result;
-        else return null;
     }
-
 }

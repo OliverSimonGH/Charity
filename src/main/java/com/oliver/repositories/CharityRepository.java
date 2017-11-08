@@ -14,6 +14,6 @@ import java.util.List;
 public interface CharityRepository extends JpaRepository<Charity, Long>{
 
     List<Charity> findAll();
-    Charity findCharityByCharityID(int id);
+    Charity findCharityByCharityID(Long id);
     Charity findCharityByCharityName(String name);
 }

@@ -11,6 +11,6 @@ import java.util.List;
 public interface CharityService {
 
     List<Charity> findAll();
-    Charity findCharityByCharityID(int id);
+    Charity findCharityByCharityID(Long id);
     List<Charity> findCharitiesByName(ArrayList<String> charity);
 }

@@ -1,5 +1,6 @@
 package com.oliver.repositories;
 
+import com.oliver.entities.Charity;
 import com.oliver.entities.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,5 @@ import java.util.List;
  */
 public interface DonationRepository extends JpaRepository<Donation, Long> {
 
-    @Query(value = "SELECT * FROM donation WHERE charity_id = :charity_id ORDER BY amount_in_pence DESC", nativeQuery = true )
-    List<Donation> findAllByCharityId(@Param("charity_id") int charity_id);
-
+    List<Donation> findAllByCharity(Charity charity);
 }

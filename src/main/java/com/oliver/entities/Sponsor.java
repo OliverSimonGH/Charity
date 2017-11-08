@@ -18,23 +18,10 @@ import java.util.List;
 @Table(name = "sponsor_form")
 public class Sponsor implements ActivityInterface{
 
-    public Sponsor(String fundraiserName, String fundraisingAction, String furl) {
-        this.fundraiserName = fundraiserName;
-        this.fundraisingAction = fundraisingAction;
-        this.furl = furl;
-    }
-
-    public Sponsor(String fundraiserName, String fundraisingAction, String furl, Charity charity) {
-        this.fundraiserName = fundraiserName;
-        this.fundraisingAction = fundraisingAction;
-        this.furl = furl;
-        this.charity = charity;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "fundraiser_name")
     private String fundraiserName;
@@ -83,13 +70,5 @@ public class Sponsor implements ActivityInterface{
     public Date getDate() {
         return dateCreated;
     }
-
-//    @PrePersist
-//    private void generateDates() {
-//        Calendar date = Calendar.getInstance();
-//        dateCreated = firstValidDay = new java.sql.Date(date.getTime().getTime());
-//        date.add(Calendar.MONTH, 1);
-//        lastValidDay = new java.sql.Date(date.getTime().getTime());
-//    }
 }
 

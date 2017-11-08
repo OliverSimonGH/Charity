@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface SponsorService {
 
-    List<Sponsor> findAllByCharityId(int num);
+    List<Sponsor> findAllByCharityId(Long num);
 }

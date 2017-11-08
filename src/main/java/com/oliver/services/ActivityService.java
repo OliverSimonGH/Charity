@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ActivityService {
 
-    List<ActivityReport> getAllActivities(int id);
+    List<ActivityReport> getAllActivities(Long id);
 }

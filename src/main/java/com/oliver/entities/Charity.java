@@ -27,7 +27,7 @@ public class Charity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int charityID;
+    private Long charityID;
 
     @Column(name = "name")
     private String charityName;
@@ -39,11 +39,11 @@ public class Charity {
     private String purpose;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "charity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "charity")
     private List<Donation> donations;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "charity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "charity")
     private List<Sponsor> sponsors;
 
 }

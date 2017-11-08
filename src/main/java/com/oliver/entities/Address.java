@@ -29,7 +29,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "building_name")
     private String buildingName;
@@ -52,7 +52,7 @@ public class Address {
     @Column(name = "country_iso_code")
     private String countryISOCode;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address")
     private List<Donor> donors;
 
 
