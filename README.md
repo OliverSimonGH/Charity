@@ -25,14 +25,14 @@ The second most recent would be a donation of £2775 made by Ara Dorro at 2017-0
 Use the following API to find all the charities associated with this website.
 http://localhost:8080/api/charities
 
-Use the following API to find a charity of your choice.
-http://localhost:8080/api/charity?name={charity name}
+Use the following API to find a charity by name of your choice.
+http://localhost:8080/api/charity?name={name}
 
 Example One:
 http://localhost:8080/api/charity?name=nspcc
 
 Example Two:
-You can also find multiple charities by adding another URL paramater
+You can also find multiple charities by name by adding another URL paramater
 http://localhost:8080/api/charity?name=nspcc&name=oxfam
 
 Use the following API to find a charity with a specfic ID
